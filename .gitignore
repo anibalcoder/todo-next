@@ -42,3 +42,5 @@ next-env.d.ts
 
 # DB
 postgres
+
+/src/generated/prisma

@@ -33,3 +33,19 @@ pnpm dev
 ```bash
 docker compose up -d db
 ```
+
+## 🧩 Prisma ORM
+
+1. **Ejecutar migraciones**
+
+```bash
+# Aplica los cambios del esquema a la base de datos.
+# Genera el cliente de Prisma automáticamente.
+pnpm dlx prisma migrate dev
+```
+
+2. **Regenerar el cliente Prisma (si cambias el schema)**
+
+```bash
+pnpm dlx prisma generate
+```
