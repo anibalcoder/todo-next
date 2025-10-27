@@ -1,11 +1,12 @@
-import { PrismaClient } from "@prisma/client"
+import { PrismaClient } from '@prisma/client'
 
 const globalForPrisma = globalThis as {
   prisma?: PrismaClient
 }
 
-// biome-ignore lint/suspicious/noAssignInExpressions: assigning value intentionally inside condition
-const prisma = globalForPrisma.prisma ?? (globalForPrisma.prisma = new PrismaClient())
+const prisma =
+  // biome-ignore lint/suspicious/noAssignInExpressions: assigning value intentionally inside condition
+  globalForPrisma.prisma ?? (globalForPrisma.prisma = new PrismaClient())
 
 if (process.env.NODE_ENV !== 'production') {
   globalForPrisma.prisma = prisma
