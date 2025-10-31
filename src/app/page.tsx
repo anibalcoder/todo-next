@@ -1,3 +1,5 @@
+import { TodoGrid } from '@/components/todos'
+
 export default function Home() {
-  return <h1>Hola mundo</h1>
+  return <TodoGrid />
 }
