@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { EditIcon } from '@/components/icons'
 import { updateTodo } from '@/services/todos'
 import { notify } from '@/utils/notify'
-import { UpdateTodoModal } from '../UpdateTodoModal'
+import { TodoFormModal } from '../TodoFormModal'
 
 interface Props extends Pick<Todo, 'id' | 'description' | 'completed'> {}
 
@@ -47,11 +47,12 @@ export const UpdateTodoButton = ({
       </button>
 
       {isModal && (
-        <UpdateTodoModal
+        <TodoFormModal
+          title='Actualizar tarea'
           description={initialDescription}
           completed={initialCompleted}
-          updateTodo={handleUpdateTodo}
-          onCloseModal={handleCloseModal}
+          onSubmitTodo={handleUpdateTodo}
+          onClose={handleCloseModal}
         />
       )}
     </>

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { createTodo } from '@/services/todos'
 import { notify } from '@/utils/notify'
-import { CreateTodoModal } from '../CreateTodoModal'
+import { TodoFormModal } from '../TodoFormModal'
 
 export const CreateTodoButton = () => {
   const [isModal, setIsModal] = useState(false)
@@ -40,9 +40,10 @@ export const CreateTodoButton = () => {
       </button>
 
       {isModal && (
-        <CreateTodoModal
-          createTodo={handleCreateTodo}
-          onCloseModal={handleCloseModal}
+        <TodoFormModal
+          title='Crear tarea'
+          onSubmitTodo={handleCreateTodo}
+          onClose={handleCloseModal}
         />
       )}
     </>
