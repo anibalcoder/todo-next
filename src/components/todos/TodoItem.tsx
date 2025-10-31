@@ -3,7 +3,7 @@ import {
   CompletedTodoButton,
   DeleteTodoButton,
   UpdateTodoButton,
-} from '@/components/todos'
+} from '@/components/todos/buttons'
 
 interface Props {
   todo: Todo

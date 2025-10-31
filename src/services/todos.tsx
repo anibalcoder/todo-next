@@ -1,5 +1,9 @@
 import type { Todo } from '@prisma/client'
-import type { deleteTodoResponse, UpdateTodoResponse } from '@/interfaces'
+import type {
+  CreateTodoResponse,
+  deleteTodoResponse,
+  UpdateTodoResponse,
+} from '@/interfaces'
 
 const baseUrlApi = 'http://localhost:3000/api'
 
@@ -71,5 +75,28 @@ export async function updateTodo({
   }
 
   const data = (await res.json()) as UpdateTodoResponse
+  return data
+}
+
+export async function createTodo({
+  description,
+  completed,
+}: Pick<Todo, 'description' | 'completed'>): Promise<CreateTodoResponse> {
+  const res = await fetch(`${baseUrlApi}/todos`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      completed,
+      description,
+    }),
+  })
+
+  if (!res.ok) {
+    throw new Error(`No se pudo eliminar la tarea. Inténtalo nuevamente.`)
+  }
+
+  const data = (await res.json()) as CreateTodoResponse
   return data
 }
