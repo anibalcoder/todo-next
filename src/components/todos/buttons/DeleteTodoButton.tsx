@@ -1,9 +1,8 @@
 'use client'
 
 import type { Todo } from '@prisma/client'
-import { useRouter } from 'next/navigation'
+import { deleteTodo } from '@/actions/actions-todo'
 import { TrashIcon } from '@/components/icons'
-import { deleteTodo } from '@/services/todos'
 import { notify } from '@/utils/notify'
 
 interface Props {
@@ -11,24 +10,14 @@ interface Props {
 }
 
 export const DeleteTodoButton = ({ todoId }: Props) => {
-  const router = useRouter()
-
   const handleDeleteTodo = async () => {
-    try {
-      await deleteTodo({ id: todoId })
-      router.refresh()
-      notify({ isError: false, message: 'Tarea eliminada correctamente' })
-    } catch {
-      notify({
-        isError: true,
-        message: 'No se pudo eliminar la tarea. Inténtalo nuevamente.',
-      })
-    }
+    const { isError, message } = await deleteTodo({ id: todoId })
+    notify({ isError, message })
   }
 
   return (
     <button
-      onClick={handleDeleteTodo}
+      onClick={() => handleDeleteTodo()}
       className='cursor-pointer hover:scale-125 transition-transform'
       type='button'
     >

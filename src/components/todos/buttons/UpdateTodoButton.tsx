@@ -1,10 +1,9 @@
 'use client'
 
 import type { Todo } from '@prisma/client'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { updateTodo } from '@/actions/actions-todo'
 import { EditIcon } from '@/components/icons'
-import { updateTodo } from '@/services/todos'
 import { notify } from '@/utils/notify'
 import { TodoFormModal } from '../TodoFormModal'
 
@@ -16,7 +15,6 @@ export const UpdateTodoButton = ({
   completed: initialCompleted,
 }: Props) => {
   const [isModal, setIsModal] = useState(false)
-  const router = useRouter()
 
   const handleCloseModal = () => setIsModal(false)
 
@@ -24,16 +22,12 @@ export const UpdateTodoButton = ({
     completed,
     description,
   }: Omit<Props, 'id'>) => {
-    try {
-      const rest = await updateTodo({ id: todoId, completed, description })
-      handleCloseModal()
-      router.refresh()
-      notify({ isError: false, message: rest.message })
-    } catch (error) {
-      if (error instanceof Error) {
-        notify({ isError: true, message: error.message })
-      }
-    }
+    const { isError, message } = await updateTodo({
+      id: todoId,
+      completed,
+      description,
+    })
+    notify({ isError, message })
   }
 
   return (
