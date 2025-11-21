@@ -7,8 +7,8 @@ import {
   MenuToCloseIcon,
   TodoListIcon,
 } from '@/components/icons'
-import { UserAvatar } from '@/components/UserAvatar'
-import { Logout } from './Logout'
+import { UserAvatar } from '@/components/user/UserAvatar'
+import { LogoutButton } from './LogoutButton'
 import { SidebarItem } from './SidebarItem'
 
 const sidebarItems = [
@@ -25,20 +25,20 @@ const sidebarItems = [
 ]
 
 export const Sidebar = () => {
-  const [toggleMenu, setToggleMenu] = useState(false)
+  const [isOpenMenu, setIsOpenMenu] = useState(false)
 
   return (
     <div className='fixed w-full sm:w-64'>
       <button
-        onClick={() => setToggleMenu(!toggleMenu)}
+        onClick={() => setIsOpenMenu(!isOpenMenu)}
         className='p-2 border-2 bg-white rounded-md border-gray-200 shadow-lg text-gray-500 focus:bg-teal-500 focus:outline-none focus:text-white absolute top-0 left-0'
         type='button'
       >
-        {toggleMenu ? <MenuToCloseIcon /> : <MenuRoundedIcon />}
+        {isOpenMenu ? <MenuToCloseIcon /> : <MenuRoundedIcon />}
       </button>
 
       <aside
-        className={`${toggleMenu ? 'block' : 'hidden'} bg-white min-h-screen shadow-xl px-3 pt-12 pb-6 space-y-10 flex flex-col w-full overflow-x-hidden`}
+        className={`${isOpenMenu ? 'block' : 'hidden'} bg-white min-h-screen shadow-xl px-3 pt-12 pb-6 space-y-10 flex flex-col w-full overflow-x-hidden`}
       >
         <UserAvatar />
 
@@ -48,7 +48,7 @@ export const Sidebar = () => {
           ))}
         </div>
 
-        <Logout />
+        <LogoutButton />
       </aside>
     </div>
   )

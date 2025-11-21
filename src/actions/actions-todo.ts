@@ -6,6 +6,7 @@ import { ValidationError } from 'yup'
 import type { TodoResponse } from '@/interfaces/todoResponse'
 import prisma from '@/libs/prisma'
 import { createTodoSchema } from '@/schemas/todo.schema'
+import { getUserSessionServer } from './user'
 
 export const getTodos = async ({
   skip,
@@ -14,6 +15,8 @@ export const getTodos = async ({
   skip: number
   take: number
 }): Promise<string | Todo[]> => {
+  const user = await getUserSessionServer()
+
   try {
     if (isNaN(skip) || skip < 0) {
       throw new Error('skip debe ser un número válido mayor o igual a 0')
@@ -27,7 +30,10 @@ export const getTodos = async ({
       skip,
       take,
       orderBy: { createAt: 'asc' },
+      where: { userId: user?.id },
     })
+
+    console.log(todos)
 
     return todos
   } catch (error) {
@@ -47,6 +53,8 @@ export const createTodo = async ({
   description: Todo['description']
   completed: Todo['completed']
 }): Promise<TodoResponse> => {
+  const user = await getUserSessionServer()
+
   try {
     const validatedData = await createTodoSchema.validate({
       description,
@@ -54,7 +62,10 @@ export const createTodo = async ({
     })
 
     await prisma.todo.create({
-      data: validatedData,
+      data: {
+        ...validatedData,
+        userId: user?.id!,
+      },
     })
 
     revalidatePath('/')
@@ -64,6 +75,7 @@ export const createTodo = async ({
       message: 'Tarea agregada exitosamente',
     }
   } catch (error) {
+    console.log(error)
     const errorMessage =
       error instanceof ValidationError
         ? error.message

@@ -1,12 +1,14 @@
+import { UserCard } from '@/components/user/UserCard'
+
 export const metadata = {
   title: 'Dashboard',
   description: 'Dashboard del usuario para gestionar tareas',
 }
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
   return (
-    <div>
-      <h1>Hello Page</h1>
-    </div>
+    <section className='h-screen flex justify-center items-center'>
+      <UserCard />
+    </section>
   )
 }

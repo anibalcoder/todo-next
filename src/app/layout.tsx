@@ -1,7 +1,10 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
+import { redirect } from 'next/navigation'
 import { Toaster } from 'react-hot-toast'
+import { getUserSessionServer } from '@/actions/user'
+import { AuthWrapper } from '@/auth/AuthWrapper'
 import { Sidebar } from '@/components/sidebar/Sidebar'
 
 const geistSans = Geist({
@@ -19,18 +22,26 @@ export const metadata: Metadata = {
   description: 'Lista de tareas con base de datos para almacenar tareas 📄',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const user = await getUserSessionServer()
+
+  if (!user) {
+    redirect('/api/auth/signin')
+  }
+
   return (
     <html lang='es-PE'>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased p-0!`}
       >
-        <Sidebar />
-        {children}
+        <AuthWrapper>
+          <Sidebar />
+          {children}
+        </AuthWrapper>
         <Toaster position='top-center' reverseOrder />
       </body>
     </html>

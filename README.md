@@ -19,7 +19,12 @@ pnpm install
 
 3. **Configurar entorno**
 
-    - Crear una copia de `.env.template` y renombrar a `.env`.
+    - Crear una copia de `.env.example` y renombrar a `.env`.
+
+    - Para generar `AUTH_SECRET`, ejecutar: `pnpm dlx auth secret`
+        - Esto generará un archivo `.env.local` con un valor de `AUTH_SECRET`.
+        - Copiar ese valor dentro del archivo `.env`.
+
     - Luego, reemplaza los valores según tus credenciales.
 
 4. **Iniciar servidor de desarrollo**
